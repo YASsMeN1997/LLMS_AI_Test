@@ -2,10 +2,12 @@ import openai
 from config import config
 import os
 import json
+import requests
+
 
 def parse_car_description(description):
 
-    openai.OPENAI_API_KEY = config.Config.OPENAI_API_KEY
+
     """
     Function to send car description to OpenAI API and retrieve a structured response in JSON format.
     Args:
@@ -14,6 +16,10 @@ def parse_car_description(description):
     Returns:
         dict: A dictionary containing the car details in the specified JSON format.
     """
+
+    API_KEY = config.Config.AZURE_OPENAI_KEY
+    EndPoint = config.Config.ENDPOINT
+
     # Define the prompt that guides the model to return the correct structured response
     prompt = f"""
     Given the following car description, generate the car's details in a structured JSON format:
@@ -49,22 +55,27 @@ def parse_car_description(description):
 
     Please provide the response in the above format.
     """
-    # Send the request to OpenAI API
-    response = openai.Completion.create(
-        engine="gpt-4o-mini-YY3943",  
-        prompt=prompt,
-        max_tokens=200,  
-        temperature=0.3,  
-        n=1,  # We want only one response
-        stop=["\n"]  # Ensure it stops at the end of the response
-    )
+    # prepare the request payload
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": API_KEY
+    }
 
-    # Extract the generated response
-    response_text = response.choices[0].text.strip()
+    payload = {
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ]
+    }
 
-    try:
-        car_details = json.loads(response_text)
-        return car_details
-    except json.JSONDecodeError:
-        # If JSON is invalid, return an error message
-        return {"error": "Failed to parse JSON response"}
+    # Send the request to the API endpoint
+    response = requests.post(EndPoint, headers=headers, json=payload)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the response JSON
+        data = response.json()
+        return data['choices'][0]['message']['content']
+    else:
+        return f"Error: {response.status_code}, {response.text}"
+    
