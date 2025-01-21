@@ -12,7 +12,7 @@ def main():
     #print(car_details)
     subject = "Car Details"
     body = description
-    to_email = "yassmenyoussef55@gmail.com"
+    to_email = "aitesty186@gmail.com"
     send_email(subject, body, to_email)
 
 

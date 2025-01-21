@@ -30,6 +30,7 @@ def send_email(subject, body, to_email, attachment_path=None):
         
         # Login to the server using the sender's email and password
         server.login(Config.EMAIL_SENDER, Config.EMAIL_PASSWORD)
+        print("login scusefully")
         
         # Send the email
         server.sendmail(Config.EMAIL_SENDER, to_email, msg.as_string())
