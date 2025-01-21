@@ -1,6 +1,6 @@
 from src.car_description import parse_car_description
 from utils.helper_function import send_email
-
+from assets import *
 
 def main():
     # Example description input
@@ -13,7 +13,8 @@ def main():
     subject = "Car Details"
     body = description
     to_email = "aitesty186@gmail.com"
-    send_email(subject, body, to_email)
+    image_path = 'sample1.jpg'
+    send_email(subject, body, to_email,image_path)
 
 
 main()
