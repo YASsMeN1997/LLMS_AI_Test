@@ -1,24 +1,33 @@
-from src.car_description import parse_car_description
-from utils.helper_function import send_email
+from utils.helper_functions import *
 from assets import *
+import gradio as gr
+import os
 
+# Create the Gradio interface
 def main():
-    # Example description input
-    description = "Blue Ford Fusion produced in 2015 featuring a 2.0-liter engine. The vehicle has low mileage with only 40,000 miles on the odometer."
-    # Get the car details in JSON format
-    #car_details = parse_car_description(description)
-
-    # Print the output JSON
-    #print(car_details)
-    subject = "Car Details"
-    body = description
-    to_email = "aitesty186@gmail.com"
-    image_path = 'sample1.jpg'
-    send_email(subject, body, to_email,image_path)
-
+    with gr.Blocks() as demo:
+        gr.Markdown("### Car Information Submission")
+        
+        # Textbox for car description input
+        description_input = gr.Textbox(label="Car Description", placeholder="Enter the car description here...", lines=4)
+        
+        # Image upload input
+        image_input = gr.Image(type="filepath", label="Upload Car Image")
+        
+        # Textbox for email input
+        email_input = gr.Textbox(label="Your Email", placeholder="Enter your email", type="email")
+        
+        # Button to submit the data and process the car information
+        submit_button = gr.Button("Send Car Details")
+        
+        # Output message area
+        output_message = gr.Textbox(label="Output", interactive=False)
+        
+        # Set the button to call the process_car_info function on click
+        submit_button.click(process_car_info, inputs=[description_input, image_input, email_input], outputs=output_message)
+    
+    # Launch the Gradio app
+    demo.launch()
 
 main()
-
-
-
 

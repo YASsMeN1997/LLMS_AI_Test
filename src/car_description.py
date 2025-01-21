@@ -3,10 +3,11 @@ from config import config
 import os
 import json
 import requests
+from src.car_type_identified import car_identification
+
 
 
 def parse_car_description(description):
-
 
     """
     Function to send car description to OpenAI API and retrieve a structured response in JSON format.
@@ -19,17 +20,21 @@ def parse_car_description(description):
 
     API_KEY = config.Config.AZURE_OPENAI_KEY
     EndPoint = config.Config.ENDPOINT
-
+    car_type = car_identification()
+     # Check the value of body_type and ensure it's a string
+    if not isinstance(car_type, str):
+        raise ValueError(f"Invalid body_type returned from car_identification: {body_type}")
+    
     # Define the prompt that guides the model to return the correct structured response
     prompt = f"""
-    Given the following car description, generate the car's details in a structured JSON format:
-
+    Given the following car description, generate the car's details in a structured JSON object format:
     Description: {description}
+    ,make sure to put the :body_type": {car_type} in its place in json.
 
     The JSON should follow this structure:
     {{
         "car": {{
-
+            "body_type": "<string>",
             "color": "<string>",
             "brand": "<string>",
             "model": "<string>",
@@ -65,7 +70,8 @@ def parse_car_description(description):
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
-        ]
+        ],
+        "temperature": 0.3
     }
 
     # Send the request to the API endpoint
@@ -75,7 +81,8 @@ def parse_car_description(description):
     if response.status_code == 200:
         # Parse the response JSON
         data = response.json()
-        return data['choices'][0]['message']['content']
+        
+        return (data['choices'][0]['message']['content'])
     else:
         return f"Error: {response.status_code}, {response.text}"
     
