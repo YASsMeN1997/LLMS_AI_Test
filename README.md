@@ -60,7 +60,6 @@ Clone the repository to your local machine.
 ```python
 bash
 git clone https://github.com/YASsMeN1997/LLMS_AI_Test.git
-cd car-info-submission-app
 ```
 
 2. Set Up Virtual Environment (Optional but recommended)
