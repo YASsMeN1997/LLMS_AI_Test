@@ -168,7 +168,7 @@ Here are the details of the car in JSON format:
     "car": {
         "body_type": "sedan",
         "color": "Blue",
-[1:23 am, 22/01/2025] ChatGpt: "brand": "Ford",
+        "brand": "Ford",
         "model": "Fusion",
         "manufactured_year": 2015,
         "motor_size_cc": 2000,
