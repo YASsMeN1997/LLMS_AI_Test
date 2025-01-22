@@ -29,7 +29,7 @@ def parse_car_description(description):
     prompt = f"""
     Given the following car description, generate the car's details in a structured JSON object format:
     Description: {description}
-    ,make sure to put the :body_type": {car_type} in its place in json.
+    make sure to put the "body_type": {car_type} in its place in json.
 
     The JSON should follow this structure:
     {{

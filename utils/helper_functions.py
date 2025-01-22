@@ -24,9 +24,9 @@ def send_email(subject, json_data, to_email,image_path, attachment_path=None):
         msg['To'] = to_email
         msg['Subject'] = subject
 
-        body = "Please check car details in JSON format && the attached car image below:\n"
+        #body = "Please check car details in JSON format && the attached car image below:\n"
         # Attach the json data to the email body
-        msg.attach(MIMEText(body + json_data , 'plain'))
+        msg.attach(MIMEText( json_data , 'plain'))
 
         with open(image_path, 'rb') as image_file:
             img = MIMEImage(image_file.read())
@@ -63,11 +63,22 @@ def process_car_info(description, car_image, user_email):
     
     # Set the subject and the email content
     subject = "Car Details"
-    json_data = car_details
+    #json_data = car_details
+    cleaned_json = car_details.replace("'''","").strip().replace("json","").strip()
+    #formatted_json = json.dumps(car_details,indent=4)
+    email_content = f"""Here are the details of the car in JSON format:
+    
+    {cleaned_json}
+
+    kindly check the attached car image.
+
+    Regards,
+    Your Car Info App
+    """
     
     # Send the email with the car details and the image
     try:
-        send_email(subject, json_data, user_email, image_path)
+        send_email(subject, email_content, user_email, image_path)
         return "Car details sent successfully to the provided email!"
     except Exception as e:
         return f"Failed to send email. Error: {e}"
