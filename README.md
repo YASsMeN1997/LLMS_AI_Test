@@ -34,7 +34,7 @@ After processing the description using OpenAI's GPT-4o mini model, it generates 
 - **Car Description Parsing**: Automatically parses car descriptions to generate structured JSON.
 - **Image Upload**: Allows users to upload car images.
 - **Email Sending**: Sends car details and image to a provided email address.
-- **Structured JSON Output**: Sends well-formatted JSON output in Python code block style for easy readability.
+- **Structured JSON Output**: Sends well-formatted JSON output in html style for easy readability.
 - **Gradio Interface**: User-friendly interface for interaction.
 
 ---
@@ -59,7 +59,7 @@ Clone the repository to your local machine.
 
 ```python
 bash
-git clone https://github.com/YASsMeN1997/LLMS_AI_TEST.git
+git clone https://github.com/YASsMeN1997/LLMS_AI_Test.git
 cd car-info-submission-app
 ```
 
