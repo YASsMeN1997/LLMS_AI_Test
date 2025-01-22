@@ -25,8 +25,32 @@ def send_email(subject, json_data, to_email,image_path, attachment_path=None):
         msg['Subject'] = subject
 
         #body = "Please check car details in JSON format && the attached car image below:\n"
-        # Attach the json data to the email body
-        msg.attach(MIMEText( json_data , 'plain'))
+        # Create HTML email body with code enclosed in <pre> and <code> tags
+        html_body = f"""
+        <html>
+        <head>
+        <style>
+            pre {{
+                font-family: 'Courier New', Courier, monospace;
+                background-color: #f4f4f4;
+                padding: 10px;
+                border-radius: 5px;
+            }}
+        </style>
+        </head>
+        <body>
+            
+            <p>Here are the details of the car in JSON format:</p>
+            <pre><code>{json_data}</code></pre>
+            <p>Kindly check the attached car image.</p>
+            <p>Regards,<br>Your Car Info App</p>
+        </body>
+        </html>
+        """
+
+        # Attach the HTML body to the email
+        msg.attach(MIMEText(html_body, 'html'))
+
 
         with open(image_path, 'rb') as image_file:
             img = MIMEImage(image_file.read())
@@ -64,21 +88,12 @@ def process_car_info(description, car_image, user_email):
     # Set the subject and the email content
     subject = "Car Details"
     #json_data = car_details
-    cleaned_json = car_details.replace("'''","").strip().replace("json","").strip()
+    cleaned_json = car_details.replace("```","").strip().replace("json","").strip()
     #formatted_json = json.dumps(car_details,indent=4)
-    email_content = f"""Here are the details of the car in JSON format:
-    
-    {cleaned_json}
-
-    kindly check the attached car image.
-
-    Regards,
-    Your Car Info App
-    """
     
     # Send the email with the car details and the image
     try:
-        send_email(subject, email_content, user_email, image_path)
+        send_email(subject, cleaned_json, user_email, image_path)
         return "Car details sent successfully to the provided email!"
     except Exception as e:
         return f"Failed to send email. Error: {e}"
