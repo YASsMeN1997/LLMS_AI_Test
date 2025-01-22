@@ -86,8 +86,7 @@ pip install -r requirements.txt
 The .env file should contain your API key and other environment variables. Create a .env file in the root directory of the project and add the following content:
 
 ```python
-AZURE_OPENAI_KEY = ![image002](https://github.com/user-attachments/assets/0abb808d-8b0d-4442-88c4-84377f7ee1f1)
-your_openai_api_key_here
+AZURE_OPENAI_KEY = your_openai_api_key_here
 SMTP_SERVER = smtp.gmail.com
 SMTP_PORT = 587
 SENDER_EMAIL = your_email@gmail.com
@@ -191,3 +190,4 @@ Here are the details of the car in JSON format:
     }
 }
 ```
+![image002](https://github.com/user-attachments/assets/0abb808d-8b0d-4442-88c4-84377f7ee1f1)
